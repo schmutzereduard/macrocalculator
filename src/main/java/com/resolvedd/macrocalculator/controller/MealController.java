@@ -22,7 +22,7 @@ public class MealController {
         return mealService.getAllMeals();
     }
 
-    @PutMapping
+    @PostMapping
     public Meal saveFood(@RequestBody Meal meal) {
         return mealService.saveMeal(meal);
     }
@@ -32,7 +32,7 @@ public class MealController {
         mealService.deleteMeal(id);
     }
 
-    @PostMapping
+    @PutMapping
     public Meal updateFood(@RequestBody Meal meal) {
         return mealService.saveMeal(meal);
     }
