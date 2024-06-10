@@ -2,26 +2,31 @@ package com.resolvedd.macrocalculator.service;
 
 import com.resolvedd.macrocalculator.model.Food;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FoodService {
 
-    @Autowired
-    private FoodRepository foodRepository;
+    private final FoodRepository foodRepository;
 
-    public List<Food> getAllFoods() {
+    public List<Food> findAll() {
         return foodRepository.findAll();
     }
 
-    public Food saveFood(Food food) {
+    public Optional<Food> findById(Long id) {
+        return foodRepository.findById(id);
+    }
+
+    public Food save(Food food) {
         return foodRepository.save(food);
     }
 
-    public void deleteFood(Long id) {
+    public void delete(Long id) {
         foodRepository.deleteById(id);
     }
 }

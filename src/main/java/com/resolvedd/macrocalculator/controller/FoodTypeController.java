@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
-@CrossOrigin(origins = "${gui.url}")
+@CrossOrigin(origins = "${cross-origin.url}")
 @RestController
 @RequestMapping("/food-types")
 public class FoodTypeController {

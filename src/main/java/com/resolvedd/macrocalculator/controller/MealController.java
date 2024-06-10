@@ -2,38 +2,45 @@ package com.resolvedd.macrocalculator.controller;
 
 import com.resolvedd.macrocalculator.model.Meal;
 import com.resolvedd.macrocalculator.service.MealService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "${gui.url}")
+@CrossOrigin(origins = "${cross-origin.url}")
 @RestController
 @RequestMapping("/meals")
+@RequiredArgsConstructor
 public class MealController {
 
    private final MealService mealService;
 
-    public MealController(MealService mealService) {
-        this.mealService = mealService;
+    @GetMapping
+    public List<Meal> getAllMeals() {
+        return mealService.findAll();
     }
 
-    @GetMapping
-    public List<Meal> getAllFoods() {
-        return mealService.getAllMeals();
+    @GetMapping("/{id}")
+    public ResponseEntity<Meal> getMealById(@PathVariable Long id) {
+        return mealService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Meal saveFood(@RequestBody Meal meal) {
-        return mealService.saveMeal(meal);
+        return mealService.save(meal);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFood(@PathVariable Long id) {
-        mealService.deleteMeal(id);
+    public ResponseEntity<Void> deleteMeal(@PathVariable Long id) {
+        mealService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping
-    public Meal updateFood(@RequestBody Meal meal) {
-        return mealService.saveMeal(meal);
+    public Meal updateMeal(@RequestBody Meal meal) {
+        return mealService.save(meal);
     }
 }
