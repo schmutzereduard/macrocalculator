@@ -38,11 +38,8 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-    @Transactional
     public void delete(Long id) {
-        Meal meal = mealRepository.findById(id).orElseThrow(() -> new RuntimeException("Meal not found with id: " + id));
-        meal.getFoods().clear();
-        mealRepository.save(meal);
-        mealRepository.delete(meal);
+        Optional<Meal> meal = mealRepository.findById(id);
+        meal.ifPresent(mealRepository::delete);
     }
 }

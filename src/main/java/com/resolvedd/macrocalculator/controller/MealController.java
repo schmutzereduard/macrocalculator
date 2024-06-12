@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MealController {
 
-   private final MealService mealService;
+    private final MealService mealService;
 
     @GetMapping
     public List<Meal> getAllMeals() {
@@ -29,7 +29,7 @@ public class MealController {
     }
 
     @PostMapping
-    public Meal saveFood(@RequestBody Meal meal) {
+    public Meal saveMeal(@RequestBody Meal meal) {
         return mealService.save(meal);
     }
 

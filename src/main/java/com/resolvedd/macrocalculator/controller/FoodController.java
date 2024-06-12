@@ -3,6 +3,7 @@ package com.resolvedd.macrocalculator.controller;
 import com.resolvedd.macrocalculator.model.Food;
 import com.resolvedd.macrocalculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +32,9 @@ public class FoodController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFood(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
         foodService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping

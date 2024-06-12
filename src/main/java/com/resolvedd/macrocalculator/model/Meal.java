@@ -14,7 +14,7 @@ public class Meal {
     private Long id;
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "meal_foods",
             joinColumns = @JoinColumn(name = "meal_id"),
