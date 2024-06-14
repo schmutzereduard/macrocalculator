@@ -1,9 +1,9 @@
 package com.resolvedd.macrocalculator.service;
 
 import com.resolvedd.macrocalculator.model.Food;
-import com.resolvedd.macrocalculator.model.Meal;
+import com.resolvedd.macrocalculator.model.Recipe;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
-import com.resolvedd.macrocalculator.repository.MealRepository;
+import com.resolvedd.macrocalculator.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class FoodService {
 
     private final FoodRepository foodRepository;
-    private final MealRepository mealRepository;
+    private final RecipeRepository recipeRepository;
 
     public List<Food> findAll() {
         return foodRepository.findAll();
@@ -33,10 +33,10 @@ public class FoodService {
     @Transactional
     public void delete(Long foodId) {
 
-        List<Meal> mealsWithFood = mealRepository.findAllByFoodsId(foodId);
-        for (Meal meal : mealsWithFood) {
-            meal.getFoods().removeIf(food -> food.getId().equals(foodId));
-            mealRepository.save(meal);
+        List<Recipe> mealsWithFood = recipeRepository.findAllByFoodsId(foodId);
+        for (Recipe recipe : mealsWithFood) {
+            recipe.getFoods().removeIf(food -> food.getId().equals(foodId));
+            recipeRepository.save(recipe);
         }
 
         foodRepository.deleteById(foodId);

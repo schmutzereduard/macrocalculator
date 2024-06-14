@@ -12,7 +12,6 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private double carbs;
     private double calories;
@@ -20,5 +19,5 @@ public class Food {
 
     @ManyToMany(mappedBy = "foods")
     @JsonIgnore
-    private List<Meal> meals;
+    private List<Recipe> recipes;
 }

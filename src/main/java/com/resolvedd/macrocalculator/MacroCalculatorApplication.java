@@ -2,9 +2,9 @@ package com.resolvedd.macrocalculator;
 
 import com.resolvedd.macrocalculator.model.Food;
 import com.resolvedd.macrocalculator.model.FoodType;
-import com.resolvedd.macrocalculator.model.Meal;
+import com.resolvedd.macrocalculator.model.Recipe;
 import com.resolvedd.macrocalculator.service.FoodService;
-import com.resolvedd.macrocalculator.service.MealService;
+import com.resolvedd.macrocalculator.service.RecipeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +20,7 @@ public class MacroCalculatorApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(FoodService foodService, MealService mealService) {
+	public CommandLineRunner commandLineRunner(FoodService foodService, RecipeService recipeService) {
 		return args -> {
 
 			Food f1 = new Food();
@@ -74,11 +74,11 @@ public class MacroCalculatorApplication {
 			fm5.setCalories(10);
 			foodService.save(fm5);
 
-			// Create a meal with persisted foods
-			Meal m1 = new Meal();
+			// Create a recipe with persisted foods
+			Recipe m1 = new Recipe();
 			m1.setName("Beans w Sausages");
 			m1.setFoods(Arrays.asList(fm1, fm2, fm3, fm4, fm5));
-			mealService.save(m1);
+			recipeService.save(m1);
 		};
 	}
 }

@@ -1,9 +1,9 @@
 package com.resolvedd.macrocalculator.service;
 
 import com.resolvedd.macrocalculator.model.Food;
-import com.resolvedd.macrocalculator.model.Meal;
+import com.resolvedd.macrocalculator.model.Recipe;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
-import com.resolvedd.macrocalculator.repository.MealRepository;
+import com.resolvedd.macrocalculator.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,32 +14,32 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MealService {
+public class RecipeService {
 
     private final FoodRepository foodRepository;
-    private final MealRepository mealRepository;
+    private final RecipeRepository recipeRepository;
 
-    public List<Meal> findAll() {
-        return mealRepository.findAll();
+    public List<Recipe> findAll() {
+        return recipeRepository.findAll();
     }
 
-    public Optional<Meal> findById(Long id) {
-        return mealRepository.findById(id);
+    public Optional<Recipe> findById(Long id) {
+        return recipeRepository.findById(id);
     }
 
     @Transactional
-    public Meal save(Meal meal) {
-        List<Food> managedFoods = meal.getFoods().stream()
+    public Recipe save(Recipe recipe) {
+        List<Food> managedFoods = recipe.getFoods().stream()
                 .map(food -> foodRepository.findById(food.getId())
                         .orElseThrow(() -> new RuntimeException("Food not found with id: " + food.getId())))
                 .collect(Collectors.toList());
 
-        meal.setFoods(managedFoods);
-        return mealRepository.save(meal);
+        recipe.setFoods(managedFoods);
+        return recipeRepository.save(recipe);
     }
 
     public void delete(Long id) {
-        Optional<Meal> meal = mealRepository.findById(id);
-        meal.ifPresent(mealRepository::delete);
+        Optional<Recipe> meal = recipeRepository.findById(id);
+        meal.ifPresent(recipeRepository::delete);
     }
 }

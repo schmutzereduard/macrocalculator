@@ -1,10 +1,10 @@
 # Macro Calculator
 
-This is a simple application to calculate macronutrients for meal plans, built with Java (Spring Boot) and React.
+This is a simple application to calculate macronutrients for recipe plans, built with Java (Spring Boot) and React.
 
 ## Features
 - Calculate macronutrients for meals
-- Store meal information
+- Store recipe information
 
 ## Technologies
 - Java 17

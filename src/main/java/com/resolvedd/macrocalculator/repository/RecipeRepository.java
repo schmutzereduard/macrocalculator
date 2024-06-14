@@ -1,13 +1,13 @@
 package com.resolvedd.macrocalculator.repository;
 
-import com.resolvedd.macrocalculator.model.Meal;
+import com.resolvedd.macrocalculator.model.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface MealRepository extends JpaRepository<Meal, Long> {
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    List<Meal> findAllByFoodsId(Long id);
+    List<Recipe> findAllByFoodsId(Long id);
 }
