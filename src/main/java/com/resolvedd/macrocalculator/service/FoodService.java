@@ -31,14 +31,14 @@ public class FoodService {
     }
 
     @Transactional
-    public void delete(Long foodId) {
+    public void deleteById(Long id) {
 
-        List<Recipe> mealsWithFood = recipeRepository.findAllByFoodsId(foodId);
+        List<Recipe> mealsWithFood = recipeRepository.findAllByFoodsId(id);
         for (Recipe recipe : mealsWithFood) {
-            recipe.getFoods().removeIf(food -> food.getId().equals(foodId));
+            recipe.getFoods().removeIf(food -> food.getId().equals(id));
             recipeRepository.save(recipe);
         }
 
-        foodRepository.deleteById(foodId);
+        foodRepository.deleteById(id);
     }
 }
