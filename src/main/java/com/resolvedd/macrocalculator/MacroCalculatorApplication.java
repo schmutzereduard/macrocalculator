@@ -1,16 +1,15 @@
 package com.resolvedd.macrocalculator;
 
-import com.resolvedd.macrocalculator.model.Food;
-import com.resolvedd.macrocalculator.model.FoodType;
-import com.resolvedd.macrocalculator.model.Recipe;
-import com.resolvedd.macrocalculator.service.FoodService;
-import com.resolvedd.macrocalculator.service.RecipeService;
+import com.resolvedd.macrocalculator.model.*;
+import com.resolvedd.macrocalculator.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 
 @SpringBootApplication
 public class MacroCalculatorApplication {
@@ -20,65 +19,33 @@ public class MacroCalculatorApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(FoodService foodService, RecipeService recipeService) {
+	CommandLineRunner runner(FoodService foodService, RecipeService recipeService, MealService mealService, PlanService planService) {
 		return args -> {
+			// Create mock data for foods
+			Food food1 = new Food("Chicken", 0, 200, FoodType.MEAT);
+			Food food2 = new Food("Rice", 45, 200, FoodType.GRAIN);
+			Food food3 = new Food("Broccoli", 5, 50, FoodType.VEGETABLE);
 
-			Food f1 = new Food();
-			f1.setType(FoodType.FRUIT);
-			f1.setName("Apple");
-			f1.setCarbs(10);
-			f1.setCalories(50);
+			foodService.save(food1);
+			foodService.save(food2);
+			foodService.save(food3);
 
-			Food f2 = new Food();
-			f2.setType(FoodType.MEAT);
-			f2.setName("Chicken");
-			f2.setCarbs(100);
-			f2.setCalories(150);
+			// Create mock data for recipes
+			Recipe recipe1 = new Recipe("Chicken and Rice", Arrays.asList(food1, food2));
+			Recipe recipe2 = new Recipe("Broccoli Salad", Collections.singletonList(food3));
 
-			foodService.save(f1);
-			foodService.save(f2);
+			recipeService.save(recipe1);
+			recipeService.save(recipe2);
 
-			// Save individual foods first
-			Food fm1 = new Food();
-			fm1.setType(FoodType.VEGETABLE);
-			fm1.setName("Beans");
-			fm1.setCarbs(60);
-			fm1.setCalories(200);
-			foodService.save(fm1);
+			// Create mock data for meals
+			Meal meal1 = new Meal(MealType.LUNCH, Arrays.asList(recipe1, recipe2));
 
-			Food fm2 = new Food();
-			fm2.setType(FoodType.MEAT);
-			fm2.setName("Sausages");
-			fm2.setCarbs(80);
-			fm2.setCalories(150);
-			foodService.save(fm2);
+			mealService.save(meal1);
 
-			Food fm3 = new Food();
-			fm3.setType(FoodType.VEGETABLE);
-			fm3.setName("Tomato sauce");
-			fm3.setCarbs(30);
-			fm3.setCalories(100);
-			foodService.save(fm3);
+			// Create mock data for plans
+			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(meal1));
 
-			Food fm4 = new Food();
-			fm4.setType(FoodType.VEGETABLE);
-			fm4.setName("Carrot");
-			fm4.setCarbs(10);
-			fm4.setCalories(20);
-			foodService.save(fm4);
-
-			Food fm5 = new Food();
-			fm5.setType(FoodType.VEGETABLE);
-			fm5.setName("Onion");
-			fm5.setCarbs(15);
-			fm5.setCalories(10);
-			foodService.save(fm5);
-
-			// Create a recipe with persisted foods
-			Recipe m1 = new Recipe();
-			m1.setName("Beans w Sausages");
-			m1.setFoods(Arrays.asList(fm1, fm2, fm3, fm4, fm5));
-			recipeService.save(m1);
+			planService.save(plan1);
 		};
 	}
 }
