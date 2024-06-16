@@ -2,7 +2,6 @@ package com.resolvedd.macrocalculator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,11 +24,23 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
-    private List<Food> foods;
+    private List<Food> foods = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "recipes")
+    @ManyToMany(mappedBy = "breakfast")
     @JsonIgnore
-    private List<Meal> meals;
+    private List<Plan> breakfastPlans = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "lunch")
+    @JsonIgnore
+    private List<Plan> lunchPlans = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "dinner")
+    @JsonIgnore
+    private List<Plan> dinnerPlans = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "snacks")
+    @JsonIgnore
+    private List<Plan> snackPlans = new ArrayList<>();
 
     public Recipe(String name, List<Food> foods) {
         this.name = name;

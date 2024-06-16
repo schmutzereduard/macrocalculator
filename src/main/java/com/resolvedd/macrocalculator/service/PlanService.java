@@ -1,8 +1,6 @@
 package com.resolvedd.macrocalculator.service;
 
-import com.resolvedd.macrocalculator.model.Meal;
 import com.resolvedd.macrocalculator.model.Plan;
-import com.resolvedd.macrocalculator.repository.MealRepository;
 import com.resolvedd.macrocalculator.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import java.util.stream.Collectors;
 public class PlanService {
 
     private final PlanRepository planRepository;
-    private final MealRepository mealRepository;
 
     public List<Plan> findAll() {
         return planRepository.findAll();
@@ -29,12 +26,6 @@ public class PlanService {
 
     @Transactional
     public Plan save(Plan plan) {
-        List<Meal> managedMeals = plan.getMeals().stream()
-                .map(meal -> mealRepository.findById(meal.getId())
-                        .orElseThrow(() -> new RuntimeException("Meal not found with id: " + meal.getId())))
-                .collect(Collectors.toList());
-
-        plan.setMeals(managedMeals);
         return planRepository.save(plan);
     }
 

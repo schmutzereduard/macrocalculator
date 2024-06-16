@@ -19,12 +19,12 @@ public class MacroCalculatorApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(FoodService foodService, RecipeService recipeService, MealService mealService, PlanService planService) {
+	CommandLineRunner runner(FoodService foodService, RecipeService recipeService,PlanService planService) {
 		return args -> {
 			// Create mock data for foods
-			Food food1 = new Food("Chicken", 0, 200, FoodType.MEAT);
-			Food food2 = new Food("Rice", 45, 200, FoodType.GRAIN);
-			Food food3 = new Food("Broccoli", 5, 50, FoodType.VEGETABLE);
+			Food food1 = new Food("Chicken", FoodType.MEAT, 0, 200);
+			Food food2 = new Food("Rice", FoodType.GRAIN, 45, 200);
+			Food food3 = new Food("Broccoli", FoodType.VEGETABLE, 5, 50);
 
 			foodService.save(food1);
 			foodService.save(food2);
@@ -37,13 +37,9 @@ public class MacroCalculatorApplication {
 			recipeService.save(recipe1);
 			recipeService.save(recipe2);
 
-			// Create mock data for meals
-			Meal meal1 = new Meal(MealType.LUNCH, Arrays.asList(recipe1, recipe2));
-
-			mealService.save(meal1);
 
 			// Create mock data for plans
-			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(meal1));
+			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(recipe1), Arrays.asList(recipe2), Collections.emptyList(), Collections.emptyList());
 
 			planService.save(plan1);
 		};

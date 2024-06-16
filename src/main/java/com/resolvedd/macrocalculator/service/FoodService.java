@@ -33,8 +33,8 @@ public class FoodService {
     @Transactional
     public void deleteById(Long id) {
 
-        List<Recipe> mealsWithFood = recipeRepository.findAllByFoodsId(id);
-        for (Recipe recipe : mealsWithFood) {
+        List<Recipe> recipesWithFood = recipeRepository.findAllByFoodsId(id);
+        for (Recipe recipe : recipesWithFood) {
             recipe.getFoods().removeIf(food -> food.getId().equals(id));
             recipeRepository.save(recipe);
         }
