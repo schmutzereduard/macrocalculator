@@ -17,12 +17,12 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping
-    public List<Recipe> getAllRecipes() {
-        return recipeService.findAll();
+    public ResponseEntity<List<Recipe>> getRecipes() {
+        return ResponseEntity.ok(recipeService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getRecipeById(@PathVariable Long id) {
+    public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
         return recipeService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -33,14 +33,14 @@ public class RecipeController {
         return recipeService.save(recipe);
     }
 
+    @PutMapping
+    public Recipe updateRecipe(@RequestBody Recipe recipe) {
+        return recipeService.save(recipe);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping
-    public Recipe updateRecipe(@RequestBody Recipe recipe) {
-        return recipeService.save(recipe);
     }
 }

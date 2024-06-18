@@ -17,25 +17,30 @@ public class PlanController {
     private final PlanService planService;
 
     @GetMapping
-    public List<Plan> getAllPlans() {
-        return planService.findAll();
+    public ResponseEntity<List<Plan>> getPlans() {
+        return ResponseEntity.ok(planService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Plan> getPlanById(@PathVariable Long id) {
+    public ResponseEntity<Plan> getPlan(@PathVariable Long id) {
         return planService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Plan savePlan(@RequestBody Plan plan) {
-        return planService.save(plan);
+    public ResponseEntity<Plan> savePlan(@RequestBody Plan plan) {
+        return ResponseEntity.ok(planService.save(plan));
+    }
+
+    @PutMapping
+    public ResponseEntity<Plan> updatePlan(@RequestBody Plan plan) {
+        return ResponseEntity.ok(planService.save(plan));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlan(@PathVariable Long id) {
         planService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

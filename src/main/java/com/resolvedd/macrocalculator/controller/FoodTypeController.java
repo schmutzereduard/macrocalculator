@@ -1,6 +1,7 @@
 package com.resolvedd.macrocalculator.controller;
 
 import com.resolvedd.macrocalculator.model.FoodType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 public class FoodTypeController {
 
     @GetMapping
-    public List<FoodType> getAllFoodTypes() {
-        return Arrays.asList(FoodType.values());
+    public ResponseEntity<List<FoodType>> getAllFoodTypes() {
+        return ResponseEntity.ok(Arrays.asList(FoodType.values()));
     }
 }

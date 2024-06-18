@@ -39,7 +39,7 @@ public class MacroCalculatorApplication {
 
 
 			// Create mock data for plans
-			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(recipe1), Arrays.asList(recipe2), Collections.emptyList(), Collections.emptyList());
+			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(recipe1, recipe2));
 
 			planService.save(plan1);
 		};

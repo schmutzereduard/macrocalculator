@@ -26,21 +26,9 @@ public class Recipe {
     )
     private List<Food> foods = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "breakfast")
+    @ManyToMany(mappedBy = "recipes")
     @JsonIgnore
-    private List<Plan> breakfastPlans = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "lunch")
-    @JsonIgnore
-    private List<Plan> lunchPlans = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "dinner")
-    @JsonIgnore
-    private List<Plan> dinnerPlans = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "snacks")
-    @JsonIgnore
-    private List<Plan> snackPlans = new ArrayList<>();
+    private List<Plan> plans = new ArrayList<>();
 
     public Recipe(String name, List<Food> foods) {
         this.name = name;

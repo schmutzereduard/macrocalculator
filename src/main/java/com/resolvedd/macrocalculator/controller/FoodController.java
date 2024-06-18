@@ -17,28 +17,30 @@ public class FoodController {
     private final FoodService foodService;
 
     @GetMapping
-    public List<Food> getAllFoods() {
-        return foodService.findAll();
+    public ResponseEntity<List<Food>> getFoods() {
+        return ResponseEntity.ok(foodService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Food getFood(@PathVariable Long id) {
-        return foodService.findById(id).orElse(null);
+    public ResponseEntity<Food> getFood(@PathVariable Long id) {
+        return foodService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Food saveFood(@RequestBody Food food) {
-        return foodService.save(food);
+    public ResponseEntity<Food> saveFood(@RequestBody Food food) {
+        return ResponseEntity.ok(foodService.save(food));
+    }
+
+    @PutMapping
+    public ResponseEntity<Food> updateFood(@RequestBody Food food) {
+        return ResponseEntity.ok(foodService.save(food));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
         foodService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping
-    public Food updateFood(@RequestBody Food food) {
-        return foodService.save(food);
+        return ResponseEntity.ok().build();
     }
 }

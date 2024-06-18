@@ -20,41 +20,14 @@ public class Plan {
 
     @ManyToMany
     @JoinTable(
-            name = "breakfast_recipes",
-            joinColumns = @JoinColumn(name = "breakfast_id"),
+            name = "plan_recipes",
+            joinColumns = @JoinColumn(name = "plan_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
-    private List<Recipe> breakfast = new ArrayList<>();
+    private List<Recipe> recipes = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "lunch_recipes",
-            joinColumns = @JoinColumn(name = "lunch_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
-    private List<Recipe> lunch = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "dinner_recipes",
-            joinColumns = @JoinColumn(name = "dinner_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
-    private List<Recipe> dinner = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "snacks_recipes",
-            joinColumns = @JoinColumn(name = "snack_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
-    private List<Recipe> snacks = new ArrayList<>();
-
-    public Plan(LocalDate date, List<Recipe> breakfast, List<Recipe> lunch, List<Recipe> dinner, List<Recipe> snacks) {
+    public Plan(LocalDate date, List<Recipe> recipes) {
         this.date = date;
-        this.breakfast = breakfast;
-        this.lunch = lunch;
-        this.dinner = dinner;
-        this.snacks = snacks;
+        this.recipes = recipes;
     }
 }
