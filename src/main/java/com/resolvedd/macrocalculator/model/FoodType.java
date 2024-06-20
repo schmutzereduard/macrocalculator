@@ -4,6 +4,7 @@ public enum FoodType {
     VEGETABLE,
     FRUIT,
     MEAT,
+    FISH,
     DAIRY,
     GRAIN,
     SEAFOOD,
