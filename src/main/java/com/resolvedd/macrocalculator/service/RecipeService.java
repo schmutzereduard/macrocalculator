@@ -39,6 +39,7 @@ public class RecipeService {
                     Food food = foodRepository.findById(recipeFood.getFood().getId())
                             .orElseThrow(() -> new RuntimeException("Food not found with id: " + recipeFood.getFood().getId()));
                     recipeFood.setFood(food);
+                    recipeFood.setRecipe(recipe);
                     return recipeFoodService.save(recipeFood);
                 })
                 .collect(Collectors.toList());
