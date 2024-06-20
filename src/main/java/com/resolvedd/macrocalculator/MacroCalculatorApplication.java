@@ -19,29 +19,32 @@ public class MacroCalculatorApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(FoodService foodService, RecipeService recipeService,PlanService planService) {
+	CommandLineRunner runner(FoodService foodService, RecipeService recipeService,RecipeFoodService recipeFoodService, PlanService planService) {
 		return args -> {
 			// Create mock data for foods
-			Food food1 = new Food("Chicken", FoodType.MEAT, 0, 200);
-			Food food2 = new Food("Rice", FoodType.GRAIN, 45, 200);
+			Food food1 = new Food("Chicken", FoodType.MEAT, 0, 165);
+			Food food2 = new Food("Rice", FoodType.GRAIN, 28, 129);
 			Food food3 = new Food("Broccoli", FoodType.VEGETABLE, 5, 50);
 
 			foodService.save(food1);
 			foodService.save(food2);
 			foodService.save(food3);
 
-			// Create mock data for recipes
-			Recipe recipe1 = new Recipe("Chicken and Rice", Arrays.asList(food1, food2));
-			Recipe recipe2 = new Recipe("Broccoli Salad", Collections.singletonList(food3));
+			Recipe recipe1 = new Recipe("Chicken and Rice", Collections.emptyList());
+			recipeService.save(recipe1);
+
+			RecipeFood recipeFood1 = new RecipeFood(recipe1, food1, 200);
+			RecipeFood recipeFood2 = new RecipeFood(recipe1, food2, 200);
+
+			recipeFoodService.save(recipeFood1);
+			recipeFoodService.save(recipeFood2);
+
+			recipe1.setRecipeFoods(Arrays.asList(recipeFood1, recipeFood2));
 
 			recipeService.save(recipe1);
-			recipeService.save(recipe2);
 
-
-			// Create mock data for plans
-			Plan plan1 = new Plan(LocalDate.now(), Arrays.asList(recipe1, recipe2));
-
-			planService.save(plan1);
+			Plan pla1 = new Plan(LocalDate.now(), Arrays.asList(recipe1));
+			planService.save(pla1);
 		};
 	}
 }

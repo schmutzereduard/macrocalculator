@@ -8,13 +8,16 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Data
 @NoArgsConstructor
 public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
     private FoodType type;
@@ -28,7 +31,7 @@ public class Food {
         this.type = type;
     }
 
-    @ManyToMany(mappedBy = "foods")
+    @OneToMany(mappedBy = "food", cascade = ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Recipe> recipes = new ArrayList<>();
+    private List<RecipeFood> recipeFoods = new ArrayList<>();
 }

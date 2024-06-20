@@ -3,6 +3,7 @@ package com.resolvedd.macrocalculator.service;
 import com.resolvedd.macrocalculator.model.Food;
 import com.resolvedd.macrocalculator.model.Plan;
 import com.resolvedd.macrocalculator.model.Recipe;
+import com.resolvedd.macrocalculator.model.RecipeFood;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
 import com.resolvedd.macrocalculator.repository.PlanRepository;
 import com.resolvedd.macrocalculator.repository.RecipeRepository;
@@ -21,6 +22,7 @@ public class RecipeService {
     private final FoodRepository foodRepository;
     private final RecipeRepository recipeRepository;
     private final PlanRepository planRepository;
+    private final RecipeFoodService recipeFoodService;
 
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
@@ -32,20 +34,29 @@ public class RecipeService {
 
     @Transactional
     public Recipe save(Recipe recipe) {
-        List<Food> managedFoods = recipe.getFoods().stream()
-                .map(food -> foodRepository.findById(food.getId())
-                        .orElseThrow(() -> new RuntimeException("Food not found with id: " + food.getId())))
+        List<RecipeFood> managedRecipeFoods = recipe.getRecipeFoods().stream()
+                .map(recipeFood -> {
+                    Food food = foodRepository.findById(recipeFood.getFood().getId())
+                            .orElseThrow(() -> new RuntimeException("Food not found with id: " + recipeFood.getFood().getId()));
+                    recipeFood.setFood(food);
+                    return recipeFoodService.save(recipeFood);
+                })
                 .collect(Collectors.toList());
 
-        recipe.setFoods(managedFoods);
+        recipe.setRecipeFoods(managedRecipeFoods);
         return recipeRepository.save(recipe);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        List<Plan> planWithRecipes = planRepository.findAllByRecipesId(id);
-        for (Plan plan : planWithRecipes) {
-            plan.getRecipes().removeIf(food -> food.getId().equals(id));
+        List<RecipeFood> recipeFoodsWithRecipe = recipeFoodService.findByRecipeId(id);
+        for (RecipeFood recipeFood : recipeFoodsWithRecipe) {
+            recipeFoodService.deleteById(recipeFood.getId());
+        }
+
+        List<Plan> plansWithRecipe = planRepository.findAllByRecipesId(id);
+        for (Plan plan : plansWithRecipe) {
+            plan.getRecipes().removeIf(recipe -> recipe.getId().equals(id));
             planRepository.save(plan);
         }
 
