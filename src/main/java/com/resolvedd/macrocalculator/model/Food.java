@@ -23,6 +23,7 @@ public class Food {
     private FoodType type;
     private double carbs;
     private double calories;
+    private String comments;
 
     public Food(String name, FoodType type, double carbs, double calories) {
         this.name = name;

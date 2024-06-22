@@ -20,6 +20,7 @@ public class Recipe {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
+    private String description;
 
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
     private List<RecipeFood> recipeFoods = new ArrayList<>();
