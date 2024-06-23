@@ -19,6 +19,7 @@ public class Plan {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private LocalDate date;
+    private String notes;
 
     @ManyToMany
     @JoinTable(

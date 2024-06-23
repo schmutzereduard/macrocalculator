@@ -5,6 +5,7 @@ import com.resolvedd.macrocalculator.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,14 @@ public class PlanService {
 
     public Optional<Plan> findById(Long id) {
         return planRepository.findById(id);
+    }
+
+    public Optional<Plan> findByDate(LocalDate date) {
+        return planRepository.findByDate(date);
+    }
+
+    public List<Plan> findByMonth(LocalDate startDate, LocalDate endDate) {
+        return planRepository.findByDateBetween(startDate, endDate);
     }
 
     public Plan save(Plan plan) {
