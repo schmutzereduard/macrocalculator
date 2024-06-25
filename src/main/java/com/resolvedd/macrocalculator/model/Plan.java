@@ -29,8 +29,9 @@ public class Plan {
     )
     private List<Recipe> recipes = new ArrayList<>();
 
-    public Plan(LocalDate date, List<Recipe> recipes) {
+    public Plan(LocalDate date, List<Recipe> recipes, String notes) {
         this.date = date;
         this.recipes = recipes;
+        this.notes = notes;
     }
 }

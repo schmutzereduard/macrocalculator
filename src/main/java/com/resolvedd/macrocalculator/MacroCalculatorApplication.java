@@ -103,7 +103,7 @@ public class MacroCalculatorApplication {
 				LocalDate date = LocalDate.now().plusDays(day);
 				Collections.shuffle(recipes);
 				List<Recipe> dailyRecipes = recipes.subList(0, 3); // Select 3 recipes for each day
-				Plan plan = new Plan(date, new ArrayList<>(dailyRecipes));
+				Plan plan = new Plan(date, new ArrayList<>(dailyRecipes), "");
 				planService.save(plan);
 			}
 		};

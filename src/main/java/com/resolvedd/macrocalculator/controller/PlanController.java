@@ -38,7 +38,7 @@ public class PlanController {
             LocalDate localDate = LocalDate.parse(date);
             return planService.findByDate(localDate)
                     .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.ok(new Plan(localDate, Collections.emptyList())));
+                    .orElse(ResponseEntity.ok(new Plan(localDate, Collections.emptyList(), "")));
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body(null);
         }
