@@ -8,26 +8,23 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Entity
 @Data
 @NoArgsConstructor
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeFood> recipeFoods = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "recipes")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Plan> plans = new ArrayList<>();
+    private List<JournalRecipe> journalRecipes = new ArrayList<>();
 
     public Recipe(String name, List<RecipeFood> recipeFoods) {
         this.name = name;
@@ -40,5 +37,17 @@ public class Recipe {
 
     public double getTotalCarbs() {
         return recipeFoods.stream().mapToDouble(RecipeFood::getCarbs).sum();
+    }
+
+    public double getTotalWeight() {
+        return recipeFoods.stream().mapToDouble(RecipeFood::getQuantity).sum();
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaultValues() {
+        if (this.description == null) {
+            this.description = "";
+        }
     }
 }

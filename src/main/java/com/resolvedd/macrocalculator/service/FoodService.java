@@ -1,8 +1,10 @@
 package com.resolvedd.macrocalculator.service;
 
 import com.resolvedd.macrocalculator.model.Food;
+import com.resolvedd.macrocalculator.model.JournalFood;
 import com.resolvedd.macrocalculator.model.RecipeFood;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
+import com.resolvedd.macrocalculator.repository.JournalFoodRepository;
 import com.resolvedd.macrocalculator.repository.RecipeFoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
     private final RecipeFoodRepository recipeFoodRepository;
+    private final JournalFoodRepository journalFoodRepository;
 
     public List<Food> findAll() {
         return foodRepository.findAll();
@@ -35,6 +38,11 @@ public class FoodService {
         List<RecipeFood> recipeFoodsWithFood = recipeFoodRepository.findByFoodId(id);
         for (RecipeFood recipeFood : recipeFoodsWithFood) {
             recipeFoodRepository.delete(recipeFood);
+        }
+
+        List<JournalFood> journalFoodsWithFood = journalFoodRepository.findByFoodId(id);
+        for (JournalFood journalFood : journalFoodsWithFood) {
+            journalFoodRepository.delete(journalFood);
         }
 
         foodRepository.deleteById(id);

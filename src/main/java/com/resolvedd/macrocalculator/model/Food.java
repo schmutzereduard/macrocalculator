@@ -20,7 +20,10 @@ public class Food {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
+
+    @Enumerated(EnumType.STRING)
     private FoodType type;
+
     private double carbs;
     private double calories;
     private String comments;
@@ -35,4 +38,16 @@ public class Food {
     @OneToMany(mappedBy = "food", cascade = ALL, orphanRemoval = true)
     @JsonIgnore
     private List<RecipeFood> recipeFoods = new ArrayList<>();
+
+    @OneToMany(mappedBy = "food", cascade = ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<JournalFood> journalFoods = new ArrayList<>();
+
+    @PrePersist
+    @PreUpdate
+    public void setDefaultValues() {
+        if (this.comments == null) {
+            this.comments = "";
+        }
+    }
 }

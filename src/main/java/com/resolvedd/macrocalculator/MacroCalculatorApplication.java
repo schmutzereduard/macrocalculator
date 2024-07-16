@@ -21,7 +21,7 @@ public class MacroCalculatorApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(FoodService foodService, RecipeService recipeService, RecipeFoodService recipeFoodService, PlanService planService) {
+	CommandLineRunner runner(FoodService foodService, RecipeService recipeService, RecipeFoodService recipeFoodService, JournalService journalService, JournalEntryService journalEntryService, JournalRecipeService journalRecipeService, JournalFoodService journalFoodService) {
 		return args -> {
 			// Create a list of real foods
 			List<Food> foods = Arrays.asList(
@@ -103,8 +103,26 @@ public class MacroCalculatorApplication {
 				LocalDate date = LocalDate.now().plusDays(day);
 				Collections.shuffle(recipes);
 				List<Recipe> dailyRecipes = recipes.subList(0, 3); // Select 3 recipes for each day
-				Plan plan = new Plan(date, new ArrayList<>(dailyRecipes), "");
-				planService.save(plan);
+				Journal journal = new Journal(date);
+				journalService.save(journal);
+
+				JournalEntry journalEntry = new JournalEntry(date.atTime(10, 30), 80, 2, InsulinType.SHORT_ACTING);
+				journalEntryService.save(journalEntry);
+
+				for (Recipe recipe : dailyRecipes) {
+					JournalRecipe journalRecipe = new JournalRecipe(journalEntry, recipe, 100);
+					journalRecipeService.save(journalRecipe);
+					journalEntry.addJournalRecipe(journalRecipe);
+				}
+
+				JournalFood journalFood = new JournalFood(journalEntry, foods.get(8), 200);
+				journalFoodService.save(journalFood);
+				journalEntry.addJournalFood(journalFood);
+
+				journalEntryService.save(journalEntry);
+
+				journal.addEntry(journalEntry);
+				journalService.save(journal);
 			}
 		};
 	}

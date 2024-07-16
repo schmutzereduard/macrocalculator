@@ -1,12 +1,7 @@
 package com.resolvedd.macrocalculator.service;
 
-import com.resolvedd.macrocalculator.model.Food;
-import com.resolvedd.macrocalculator.model.Plan;
-import com.resolvedd.macrocalculator.model.Recipe;
-import com.resolvedd.macrocalculator.model.RecipeFood;
-import com.resolvedd.macrocalculator.repository.FoodRepository;
-import com.resolvedd.macrocalculator.repository.PlanRepository;
-import com.resolvedd.macrocalculator.repository.RecipeRepository;
+import com.resolvedd.macrocalculator.model.*;
+import com.resolvedd.macrocalculator.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +16,7 @@ public class RecipeService {
 
     private final FoodRepository foodRepository;
     private final RecipeRepository recipeRepository;
-    private final PlanRepository planRepository;
+    private final JournalRecipeRepository journalRecipeRepository;
     private final RecipeFoodService recipeFoodService;
 
     public List<Recipe> findAll() {
@@ -55,10 +50,9 @@ public class RecipeService {
             recipeFoodService.deleteById(recipeFood.getId());
         }
 
-        List<Plan> plansWithRecipe = planRepository.findAllByRecipesId(id);
-        for (Plan plan : plansWithRecipe) {
-            plan.getRecipes().removeIf(recipe -> recipe.getId().equals(id));
-            planRepository.save(plan);
+        List<JournalRecipe> journalRecipesWithRecipe = journalRecipeRepository.findByRecipeId(id);
+        for (JournalRecipe journalRecipe : journalRecipesWithRecipe) {
+            journalRecipeRepository.delete(journalRecipe);
         }
 
         recipeRepository.deleteById(id);
