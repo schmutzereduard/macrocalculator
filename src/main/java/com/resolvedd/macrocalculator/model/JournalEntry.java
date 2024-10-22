@@ -18,8 +18,8 @@ public class JournalEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime time;
-    private double bloodSugarBefore;
-    private double insulinCorrection;
+    private double bloodSugarLevel;
+    private double insulinUnits;
 
     @Enumerated(EnumType.STRING)
     private InsulinType insulinType;
@@ -37,8 +37,8 @@ public class JournalEntry {
 
     public JournalEntry(LocalDateTime time, double bloodSugarBefore, double insulinCorrection, InsulinType insulinType) {
         this.time = time;
-        this.bloodSugarBefore = bloodSugarBefore;
-        this.insulinCorrection = insulinCorrection;
+        this.bloodSugarLevel = bloodSugarBefore;
+        this.insulinUnits = insulinCorrection;
         this.insulinType = insulinType;
     }
 
