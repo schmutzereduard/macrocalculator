@@ -4,8 +4,6 @@ import com.resolvedd.macrocalculator.model.Food;
 import com.resolvedd.macrocalculator.model.JournalFood;
 import com.resolvedd.macrocalculator.model.RecipeFood;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
-import com.resolvedd.macrocalculator.repository.JournalFoodRepository;
-import com.resolvedd.macrocalculator.repository.RecipeFoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +16,8 @@ import java.util.Optional;
 public class FoodService {
 
     private final FoodRepository foodRepository;
-    private final RecipeFoodRepository recipeFoodRepository;
-    private final JournalFoodRepository journalFoodRepository;
+    private final RecipeFoodService recipeFoodService;
+    private final JournalFoodService journalFoodService;
 
     public List<Food> findAll() {
         return foodRepository.findAll();
@@ -35,14 +33,14 @@ public class FoodService {
 
     @Transactional
     public void deleteById(Long id) {
-        List<RecipeFood> recipeFoodsWithFood = recipeFoodRepository.findByFoodId(id);
+        List<RecipeFood> recipeFoodsWithFood = recipeFoodService.findByFoodId(id);
         for (RecipeFood recipeFood : recipeFoodsWithFood) {
-            recipeFoodRepository.delete(recipeFood);
+            recipeFoodService.deleteById(recipeFood.getId());
         }
 
-        List<JournalFood> journalFoodsWithFood = journalFoodRepository.findByFoodId(id);
+        List<JournalFood> journalFoodsWithFood = journalFoodService.findByFoodId(id);
         for (JournalFood journalFood : journalFoodsWithFood) {
-            journalFoodRepository.delete(journalFood);
+            journalFoodService.deleteById(journalFood.getId());
         }
 
         foodRepository.deleteById(id);

@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecipeService {
 
-    private final FoodRepository foodRepository;
     private final RecipeRepository recipeRepository;
-    private final JournalRecipeRepository journalRecipeRepository;
     private final RecipeFoodService recipeFoodService;
+    private final FoodService foodService;
+    private final JournalRecipeService journalRecipeService;
 
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
@@ -31,7 +31,7 @@ public class RecipeService {
     public Recipe save(Recipe recipe) {
         List<RecipeFood> managedRecipeFoods = recipe.getRecipeFoods().stream()
                 .map(recipeFood -> {
-                    Food food = foodRepository.findById(recipeFood.getFood().getId())
+                    Food food = foodService.findById(recipeFood.getFood().getId())
                             .orElseThrow(() -> new RuntimeException("Food not found with id: " + recipeFood.getFood().getId()));
                     recipeFood.setFood(food);
                     recipeFood.setRecipe(recipe);
@@ -50,9 +50,9 @@ public class RecipeService {
             recipeFoodService.deleteById(recipeFood.getId());
         }
 
-        List<JournalRecipe> journalRecipesWithRecipe = journalRecipeRepository.findByRecipeId(id);
+        List<JournalRecipe> journalRecipesWithRecipe = journalRecipeService.findByRecipeId(id);
         for (JournalRecipe journalRecipe : journalRecipesWithRecipe) {
-            journalRecipeRepository.delete(journalRecipe);
+            journalRecipeService.deleteById(journalRecipe.getId());
         }
 
         recipeRepository.deleteById(id);

@@ -22,6 +22,8 @@ public class JournalFoodService {
         return journalFoodRepository.findById(id);
     }
 
+    public List<JournalFood> findByFoodId(Long id) { return journalFoodRepository.findByFoodId(id);}
+
     public List<JournalFood> findByJournalEntryId(Long journalEntryId) {
         return journalFoodRepository.findByJournalEntryId(journalEntryId);
     }
