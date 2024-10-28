@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Data
 @NoArgsConstructor
 public class JournalFood {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -23,7 +25,7 @@ public class JournalFood {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    private double quantity; // Quantity in grams
+    private double quantity;
 
     public JournalFood(JournalEntry journalEntry, Food food, double quantity) {
         this.journalEntry = journalEntry;

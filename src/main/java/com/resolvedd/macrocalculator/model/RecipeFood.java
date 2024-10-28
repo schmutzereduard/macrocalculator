@@ -25,7 +25,7 @@ public class RecipeFood {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    private double quantity; // Quantity in grams
+    private double quantity;
 
     public RecipeFood(Recipe recipe, Food food, double quantity) {
         this.recipe = recipe;

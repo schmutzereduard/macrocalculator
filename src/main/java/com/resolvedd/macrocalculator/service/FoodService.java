@@ -1,8 +1,6 @@
 package com.resolvedd.macrocalculator.service;
 
 import com.resolvedd.macrocalculator.model.Food;
-import com.resolvedd.macrocalculator.model.JournalFood;
-import com.resolvedd.macrocalculator.model.RecipeFood;
 import com.resolvedd.macrocalculator.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +14,6 @@ import java.util.Optional;
 public class FoodService {
 
     private final FoodRepository foodRepository;
-    private final RecipeFoodService recipeFoodService;
-    private final JournalFoodService journalFoodService;
 
     public List<Food> findAll() {
         return foodRepository.findAll();
@@ -27,22 +23,13 @@ public class FoodService {
         return foodRepository.findById(id);
     }
 
+    @Transactional
     public Food save(Food food) {
         return foodRepository.save(food);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        List<RecipeFood> recipeFoodsWithFood = recipeFoodService.findByFoodId(id);
-        for (RecipeFood recipeFood : recipeFoodsWithFood) {
-            recipeFoodService.deleteById(recipeFood.getId());
-        }
-
-        List<JournalFood> journalFoodsWithFood = journalFoodService.findByFoodId(id);
-        for (JournalFood journalFood : journalFoodsWithFood) {
-            journalFoodService.deleteById(journalFood.getId());
-        }
-
         foodRepository.deleteById(id);
     }
 }

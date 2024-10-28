@@ -9,19 +9,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Data
 @NoArgsConstructor
 public class JournalEntry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private LocalDateTime time;
     private double bloodSugarLevel;
     private double insulinUnits;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = STRING)
     private InsulinType insulinType;
 
     @ManyToOne
@@ -29,10 +33,10 @@ public class JournalEntry {
     @JsonIgnore
     private Journal journal;
 
-    @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "journalEntry", cascade = ALL, orphanRemoval = true)
     private List<JournalRecipe> journalRecipes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "journalEntry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "journalEntry", cascade = ALL, orphanRemoval = true)
     private List<JournalFood> journalFoods = new ArrayList<>();
 
     public JournalEntry(LocalDateTime time, double bloodSugarBefore, double insulinCorrection, InsulinType insulinType) {
