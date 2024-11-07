@@ -25,6 +25,9 @@ public class RecipeService {
 
     @Transactional
     public Recipe save(Recipe recipe) {
+
+        recipe.getRecipeFoods().forEach(recipeFood -> recipeFood.setRecipe(recipe));
+
         return recipeRepository.save(recipe);
     }
 

@@ -34,6 +34,9 @@ public class JournalService {
 
     @Transactional
     public Journal save(Journal journal) {
+
+        journal.getEntries().forEach(journalEntry -> journalEntry.setJournal(journal));
+
         return journalRepository.save(journal);
     }
 
