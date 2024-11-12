@@ -35,7 +35,11 @@ public class JournalService {
     @Transactional
     public Journal save(Journal journal) {
 
-        journal.getEntries().forEach(journalEntry -> journalEntry.setJournal(journal));
+        journal.getEntries().forEach(journalEntry -> {
+            journalEntry.getJournalFoods().forEach(journalFood -> journalFood.setJournalEntry(journalEntry));
+            journalEntry.getJournalRecipes().forEach(journalRecipe -> journalRecipe.setJournalEntry(journalEntry));
+            journalEntry.setJournal(journal);
+        });
 
         return journalRepository.save(journal);
     }
