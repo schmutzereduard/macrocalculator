@@ -19,6 +19,9 @@ public class Journal {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    private Long profileId;
+
     private LocalDate date;
 
     @OneToMany(mappedBy = "journal", cascade = ALL, orphanRemoval = true)

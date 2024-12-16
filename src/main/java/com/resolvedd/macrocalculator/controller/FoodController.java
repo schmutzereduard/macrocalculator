@@ -17,13 +17,13 @@ public class FoodController {
     private final FoodService foodService;
 
     @GetMapping
-    public ResponseEntity<List<Food>> getFoods() {
-        return ResponseEntity.ok(foodService.findAll());
+    public ResponseEntity<List<Food>> getFoods(@RequestParam Long profileId) {
+        return ResponseEntity.ok(foodService.findAll(profileId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Food> getFood(@PathVariable Long id) {
-        return foodService.findById(id)
+    public ResponseEntity<Food> getFood(@PathVariable Long id, @RequestParam Long profileId) {
+        return foodService.findById(id, profileId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -39,8 +39,8 @@ public class FoodController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
-        foodService.deleteById(id);
+    public ResponseEntity<Void> deleteFood(@PathVariable Long id, @RequestParam Long profileId) {
+        foodService.deleteById(id, profileId);
         return ResponseEntity.ok().build();
     }
 }

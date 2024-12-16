@@ -15,12 +15,12 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
 
-    public List<Food> findAll() {
-        return foodRepository.findAll();
+    public List<Food> findAll(Long profileId) {
+        return foodRepository.findAllByProfileId(profileId);
     }
 
-    public Optional<Food> findById(Long id) {
-        return foodRepository.findById(id);
+    public Optional<Food> findById(Long id, Long profileId) {
+        return foodRepository.findByIdAndProfileId(id, profileId);
     }
 
     @Transactional
@@ -29,7 +29,7 @@ public class FoodService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        foodRepository.deleteById(id);
+    public void deleteById(Long id, Long profileId) {
+        foodRepository.deleteByIdAndProfileId(id, profileId);
     }
 }

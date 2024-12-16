@@ -75,12 +75,16 @@ public class MacroCalculatorApplication {
 			);
 
 			// Save the foods to the database
-			foods.forEach(foodService::save);
+			foods.forEach(food -> {
+				food.setProfileId(3L);
+				foodService.save(food);
+			});
 
 			// Create recipes using these foods
 			List<Recipe> recipes = new ArrayList<>();
 			for (int i = 1; i <= 25; i++) {
 				Recipe recipe = new Recipe("Recipe " + i, new ArrayList<>());
+				recipe.setProfileId(3L);
 				recipeService.save(recipe);
 
 				// Randomly pick 3 foods for each recipe
@@ -104,6 +108,7 @@ public class MacroCalculatorApplication {
 				Collections.shuffle(recipes);
 				List<Recipe> dailyRecipes = recipes.subList(0, 3); // Select 3 recipes for each day
 				Journal journal = new Journal(date);
+				journal.setProfileId(3L);
 				journalService.save(journal);
 
 				JournalEntry journalEntry = new JournalEntry(date.atTime(10, 30), 80, 2, InsulinType.SHORT_ACTING);

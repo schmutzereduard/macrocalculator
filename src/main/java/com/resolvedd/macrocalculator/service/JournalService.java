@@ -16,20 +16,20 @@ public class JournalService {
 
     private final JournalRepository journalRepository;
 
-    public List<Journal> findAll() {
-        return journalRepository.findAll();
+    public List<Journal> findAll(Long profileId) {
+        return journalRepository.findAllByProfileId(profileId);
     }
 
-    public List<Journal> findByMonth(LocalDate startDate, LocalDate endDate) {
-        return journalRepository.findByDateBetween(startDate, endDate);
+    public List<Journal> findByMonth(LocalDate startDate, LocalDate endDate, Long profileId) {
+        return journalRepository.findByDateBetweenAndProfileId(startDate, endDate, profileId);
     }
 
-    public Optional<Journal> findById(Long id) {
-        return journalRepository.findById(id);
+    public Optional<Journal> findById(Long id, Long profileId) {
+        return journalRepository.findByIdAndProfileId(id, profileId);
     }
 
-    public Optional<Journal> findByDay(LocalDate date) {
-        return journalRepository.findByDate(date);
+    public Optional<Journal> findByDay(LocalDate date, Long profileId) {
+        return journalRepository.findByDateAndProfileId(date, profileId);
     }
 
     @Transactional
@@ -45,7 +45,7 @@ public class JournalService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        journalRepository.deleteById(id);
+    public void deleteById(Long id, Long profileId) {
+        journalRepository.deleteByIdAndProfileId(id, profileId);
     }
 }

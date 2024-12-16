@@ -19,6 +19,9 @@ public class Food {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    private Long profileId;
+
     private String name;
 
     @Enumerated(EnumType.STRING)

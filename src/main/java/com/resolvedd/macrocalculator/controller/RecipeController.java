@@ -17,13 +17,13 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping
-    public ResponseEntity<List<Recipe>> getRecipes() {
-        return ResponseEntity.ok(recipeService.findAll());
+    public ResponseEntity<List<Recipe>> getRecipes(@RequestParam Long profileId) {
+        return ResponseEntity.ok(recipeService.findAll(profileId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
-        return recipeService.findById(id)
+    public ResponseEntity<Recipe> getRecipe(@PathVariable Long id, @RequestParam Long profileId) {
+        return recipeService.findById(id, profileId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -39,8 +39,8 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
-        recipeService.deleteById(id);
+    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id, @RequestParam Long profileId) {
+        recipeService.deleteById(id, profileId);
         return ResponseEntity.noContent().build();
     }
 }
