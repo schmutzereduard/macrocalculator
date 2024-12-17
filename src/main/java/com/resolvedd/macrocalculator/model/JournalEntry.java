@@ -21,9 +21,15 @@ public class    JournalEntry {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private LocalDateTime time;
-    private double bloodSugarLevel;
-    private double insulinUnits;
+
+    @Column(nullable = false)
+    private Double bloodSugarLevel;
+
+    @Column(nullable = false)
+    private Double insulinUnits;
 
     @Enumerated(value = STRING)
     private InsulinType insulinType;

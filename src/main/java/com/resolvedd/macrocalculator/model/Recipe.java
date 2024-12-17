@@ -20,9 +20,12 @@ public class Recipe {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long profileId;
 
+    @Column(nullable = false)
     private String name;
+
     private String description;
 
     @OneToMany(mappedBy = "recipe", cascade = ALL, orphanRemoval = true)

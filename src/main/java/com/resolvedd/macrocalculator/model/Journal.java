@@ -20,8 +20,10 @@ public class Journal {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long profileId;
 
+    @Column(nullable = false)
     private LocalDate date;
 
     @OneToMany(mappedBy = "journal", cascade = ALL, orphanRemoval = true)

@@ -25,9 +25,10 @@ public class RecipeFood {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    private double quantity;
+    @Column(nullable = false)
+    private Double quantity;
 
-    public RecipeFood(Recipe recipe, Food food, double quantity) {
+    public RecipeFood(Recipe recipe, Food food, Double quantity) {
         this.recipe = recipe;
         this.food = food;
         this.quantity = quantity;

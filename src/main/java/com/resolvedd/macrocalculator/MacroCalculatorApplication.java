@@ -92,7 +92,7 @@ public class MacroCalculatorApplication {
 				List<RecipeFood> recipeFoods = new ArrayList<>();
 				for (int j = 0; j < 3; j++) {
 					Food food = foods.get(j);
-					RecipeFood recipeFood = new RecipeFood(recipe, food, (j + 1) * 100); // Quantity in grams
+					RecipeFood recipeFood = new RecipeFood(recipe, food, (j + 1) * 100.0); // Quantity in grams
 					recipeFoodService.save(recipeFood);
 					recipeFoods.add(recipeFood);
 				}
@@ -115,12 +115,12 @@ public class MacroCalculatorApplication {
 				journalEntryService.save(journalEntry);
 
 				for (Recipe recipe : dailyRecipes) {
-					JournalRecipe journalRecipe = new JournalRecipe(journalEntry, recipe, 100);
+					JournalRecipe journalRecipe = new JournalRecipe(journalEntry, recipe, 100.0);
 					journalRecipeService.save(journalRecipe);
 					journalEntry.addJournalRecipe(journalRecipe);
 				}
 
-				JournalFood journalFood = new JournalFood(journalEntry, foods.get(8), 200);
+				JournalFood journalFood = new JournalFood(journalEntry, foods.get(8), 200.0);
 				journalFoodService.save(journalFood);
 				journalEntry.addJournalFood(journalFood);
 
